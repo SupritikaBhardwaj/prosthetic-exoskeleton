@@ -1,0 +1,90 @@
+# Configuration file for Neuro-Controlled Robotic Limb and Exoskeleton
+
+# Sensor Configuration
+sensors:
+  emg:
+    enabled: true
+    sampling_rate: 1000  # Hz
+    channels: 8
+    threshold: 0.1
+    device_id: "/dev/ttyUSB0"
+  
+  imu:
+    enabled: true
+    sampling_rate: 100  # Hz
+    accelerometer_range: 16  # g
+    gyroscope_range: 2000  # dps
+    i2c_address: 0x68
+  
+  force:
+    enabled: true
+    sampling_rate: 50  # Hz
+    channels: 4
+    calibration_file: "config/force_calibration.json"
+
+# Actuator Configuration
+actuators:
+  motor:
+    enabled: true
+    max_speed: 100  # RPM
+    max_torque: 5.0  # Nm
+    pwm_frequency: 1000  # Hz
+  
+  servo:
+    enabled: true
+    min_angle: 0  # degrees
+    max_angle: 180  # degrees
+    default_position: 90  # degrees
+
+# AI Model Configuration
+ai_models:
+  intent_prediction:
+    model_type: "lstm"  # Options: svm, cnn, lstm
+    model_path: "models/intent_predictor.h5"
+    input_features: 16
+    sequence_length: 50
+    prediction_threshold: 0.7
+  
+  emg_classification:
+    model_type: "cnn"
+    model_path: "models/emg_classifier.h5"
+    num_classes: 6  # Number of movement classes
+    window_size: 200  # samples
+
+# Haptic Feedback Configuration
+haptic:
+  enabled: true
+  vibration_intensity: 0.5  # 0.0 to 1.0
+  feedback_modes:
+    - "grip_force"
+    - "ground_contact"
+    - "position"
+
+# Communication Configuration
+communication:
+  i2c:
+    enabled: true
+    bus: 1
+    speed: 400000  # Hz
+  
+  spi:
+    enabled: false
+    bus: 0
+    speed: 1000000  # Hz
+  
+  serial:
+    enabled: true
+    baud_rate: 115200
+    timeout: 1.0
+
+# System Configuration
+system:
+  control_frequency: 50  # Hz
+  data_logging: true
+  log_directory: "logs/"
+  calibration_mode: false
+  safety_limits:
+    max_force: 100  # N
+    max_velocity: 2.0  # m/s
+    emergency_stop: true
+
